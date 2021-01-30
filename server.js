@@ -1,34 +1,43 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const session = require("express-session");
 const cors = require("cors");
+const passport = require("./app/config/passport");
+
+const PORT = process.env.PORT || 8080;
 const db = require("./app/models");
 
 const app = express();
 
-var corsOptions = {
+const corsOptions = {
   origin: "http://localhost:8081",
 };
 
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static("public"));
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: "topsecret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-// sync database
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
-});
+// Routes
+require("./app/routes/html-routes.js")(app);
+require("./app/routes/api-routes.js")(app);
 
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to finStep." });
-});
-
-// set port, listen for requests
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+db.sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log(
+      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
+      PORT,
+      PORT
+    );
+  });
 });
