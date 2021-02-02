@@ -9,6 +9,8 @@ module.exports = (app) => {
   app.post("/api/login", passport.authenticate("local"), (req, res) => {
     // Sending back a password, even a hashed password, isn't a good idea
     res.json({
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
       email: req.user.email,
       id: req.user.id,
     });
@@ -19,6 +21,8 @@ module.exports = (app) => {
   // otherwise send back an error
   app.post("/api/signup", (req, res) => {
     db.User.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       password: req.body.password,
     })
@@ -42,11 +46,15 @@ module.exports = (app) => {
       // The user is not logged in, send back an empty object
       res.json({});
     } else {
-      // Otherwise send back the user's email and id
+      // Otherwise send back the user's name, email and id
       res.json({
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
         email: req.user.email,
         id: req.user.id,
       });
     }
   });
+
+  app.get("/api/users", (req, res) => {});
 };
