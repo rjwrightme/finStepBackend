@@ -48,6 +48,7 @@ module.exports = (app) => {
     } else {
       // Otherwise send back the user's name, email and id
       res.json({
+        isAuthenticated: true,
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         email: req.user.email,
