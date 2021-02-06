@@ -35,7 +35,7 @@ module.exports = (app) => {
   });
 
   // Route for logging user out
-  app.get("/logout", (req, res) => {
+  app.get("/api/logout", (req, res) => {
     req.logout();
     res.redirect("/");
   });
@@ -56,6 +56,4 @@ module.exports = (app) => {
       });
     }
   });
-
-  app.get("/api/users", (req, res) => {});
 };
