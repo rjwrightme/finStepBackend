@@ -1,5 +1,6 @@
 // Requiring bcryptjs for password hashing
 const bcrypt = require("bcryptjs");
+const Budget = require("./budget.model");
 
 module.exports = function (sequelize, DataTypes) {
   const User = sequelize.define("User", {
@@ -22,6 +23,10 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
     },
   });
+
+  User.associate = (models) => {
+    User.hasMany(models.Budget);
+  };
 
   // Check if unhashed password entered by the user matches hashed password in database
   User.prototype.validPassword = function (password) {
