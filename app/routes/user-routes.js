@@ -14,12 +14,13 @@ module.exports = (user) => {
 
   // Signup Route
   user.post("/api/signup", (req, res) => {
-    db.User.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-    })
+    db.user
+      .create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+      })
       .then(() => {
         res.redirect(307, "/api/login");
       })

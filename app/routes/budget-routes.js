@@ -3,10 +3,11 @@ const db = require("../models");
 module.exports = (budget) => {
   // New Budget Route
   budget.post("/api/new-budget", (req, res) => {
-    db.Budget.create({
-      budgetName: "mainBudget",
-      userId: req.body.userId,
-    })
+    db.budget
+      .create({
+        budgetName: "mainBudget",
+        userId: req.body.userId,
+      })
       .then((dbResponse) => {
         res.json(dbResponse);
       })
@@ -17,12 +18,13 @@ module.exports = (budget) => {
 
   // New BudgetItem Route
   budget.post("/api/new-budget-item", (req, res) => {
-    db.BudgetItem.create({
-      itemName: req.body.itemName,
-      type: req.body.type,
-      amount: req.body.amount,
-      frequency: req.body.frequency,
-    })
+    db.budgetItem
+      .create({
+        itemName: req.body.itemName,
+        type: req.body.type,
+        amount: req.body.amount,
+        frequency: req.body.frequency,
+      })
       .then(() => {
         res.json({
           itemName: req.body.itemName,
@@ -38,7 +40,7 @@ module.exports = (budget) => {
 
   // Get All BudgetItems
   budget.get("/api/budget-list", (req, res) => {
-    db.BudgetItem.findAll({}).then((budgetItems) => {
+    db.budgetItem.findAll({}).then((budgetItems) => {
       res.json(budgetItems);
     });
   });
