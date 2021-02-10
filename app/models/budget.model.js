@@ -9,7 +9,11 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Budget.associate = (models) => {
-    Budget.belongsTo(models.User);
+    Budget.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
     Budget.hasMany(models.BudgetItem);
   };
 
