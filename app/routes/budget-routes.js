@@ -38,6 +38,17 @@ module.exports = (budget) => {
       });
   });
 
+  // Get BudgetId
+  budget.get("/api/budget/:userId", (req, res) => {
+    db.budget
+      .findOne({
+        where: {
+          userId: req.params.userId,
+        },
+      })
+      .then((budget) => res.json(budget));
+  });
+
   // Get All BudgetItems
   budget.get("/api/budget-list", (req, res) => {
     db.budgetItem.findAll({}).then((budgetItems) => {
