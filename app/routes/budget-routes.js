@@ -4,11 +4,11 @@ module.exports = (budget) => {
   // New Budget Route
   budget.post("/api/new-budget", (req, res) => {
     db.Budget.create({
-      budgetName: req.body.budgetName,
-      UserId: req.body.UserId,
+      budgetName: "mainBudget",
+      userId: req.body.userId,
     })
-      .then((serverResponse) => {
-        res.json(serverResponse);
+      .then((dbResponse) => {
+        res.json(dbResponse);
       })
       .catch((err) => {
         res.status(401).json(err);

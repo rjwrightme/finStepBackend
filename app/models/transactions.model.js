@@ -2,7 +2,7 @@ const Account = require("./account.model");
 const Category = require("./category.model");
 
 module.exports = function (sequelize, DataTypes) {
-  const Transactions = sequelize.define("Transactions", {
+  const Transactions = sequelize.define("transactions", {
     name: {
       type: DataTypes.STRING,
     },
@@ -12,9 +12,9 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Transactions.associate = (models) => {
-    Transactions.belongsTo(models.Account);
-    Transactions.belongsToMany(models.Category, {
-      through: "TransactionCategory",
+    Transactions.belongsTo(models.account);
+    Transactions.belongsToMany(models.category, {
+      through: "transactionCategory",
     });
   };
 

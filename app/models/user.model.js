@@ -5,7 +5,7 @@ const Account = require("./account.model");
 const Category = require("./category.model");
 
 module.exports = function (sequelize, DataTypes) {
-  const User = sequelize.define("User", {
+  const User = sequelize.define("user", {
     firstName: {
       type: DataTypes.STRING,
     },
@@ -27,9 +27,9 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   User.associate = (models) => {
-    User.hasMany(models.Budget);
-    User.hasMany(models.Account);
-    User.hasMany(models.Category);
+    User.hasMany(models.budget);
+    User.hasMany(models.account);
+    User.hasMany(models.category);
   };
 
   // Check if unhashed password entered by the user matches hashed password in database

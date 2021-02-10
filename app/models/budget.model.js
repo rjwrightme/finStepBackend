@@ -2,19 +2,19 @@ const User = require("./user.model");
 const BudgetItem = require("./budgetItem.model");
 
 module.exports = function (sequelize, DataTypes) {
-  const Budget = sequelize.define("Budget", {
+  const Budget = sequelize.define("budget", {
     budgetName: {
       type: DataTypes.STRING,
     },
   });
 
   Budget.associate = (models) => {
-    Budget.belongsTo(models.User, {
+    Budget.belongsTo(models.user, {
       foreignKey: {
         allowNull: false,
       },
     });
-    Budget.hasMany(models.BudgetItem);
+    Budget.hasMany(models.budgetItem);
   };
 
   return Budget;

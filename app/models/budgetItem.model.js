@@ -1,7 +1,7 @@
 const Budget = require("./budget.model");
 
 module.exports = function (sequelize, DataTypes) {
-  const BudgetItem = sequelize.define("BudgetItem", {
+  const BudgetItem = sequelize.define("budgetItem", {
     itemName: {
       type: DataTypes.STRING,
     },
@@ -17,7 +17,7 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   BudgetItem.associate = (models) => {
-    BudgetItem.belongsTo(models.Budget);
+    BudgetItem.belongsTo(models.budget);
   };
 
   return BudgetItem;
