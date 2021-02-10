@@ -24,6 +24,7 @@ module.exports = (budget) => {
         type: req.body.type,
         amount: req.body.amount,
         frequency: req.body.frequency,
+        budgetId: req.body.budgetId,
       })
       .then(() => {
         res.json({
@@ -31,6 +32,7 @@ module.exports = (budget) => {
           type: req.body.type,
           amount: req.body.amount,
           frequency: req.body.frequency,
+          budgetId: req.body.budgetId,
         });
       })
       .catch((err) => {
