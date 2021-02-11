@@ -8,6 +8,8 @@ const db = require("./app/models");
 
 const app = express();
 
+app.options("*", cors());
+
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
