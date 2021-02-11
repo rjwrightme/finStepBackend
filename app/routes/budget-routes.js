@@ -25,6 +25,7 @@ module.exports = (budget) => {
         amount: req.body.amount,
         frequency: req.body.frequency,
         budgetId: req.body.budgetId,
+        daily: req.body.daily,
       })
       .then(() => {
         res.json({

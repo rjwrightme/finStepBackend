@@ -14,6 +14,9 @@ module.exports = function (sequelize, DataTypes) {
     frequency: {
       type: DataTypes.STRING,
     },
+    daily: {
+      type: DataTypes.INTEGER,
+    },
   });
 
   BudgetItem.associate = (models) => {
