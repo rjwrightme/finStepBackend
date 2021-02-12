@@ -1,34 +1,31 @@
 const express = require("express");
-const session = require("express-session");
 const cors = require("cors");
-const passport = require("./app/config/passport");
+const passport = require("passport");
+const db = require("./app/models");
+const routes = require("./app/routes");
+const app = express();
+require("dotenv").config();
 
 const PORT = process.env.PORT || 8080;
-const db = require("./app/models");
-
-const app = express();
 
 app.options("*", cors());
 
 app.use(cors());
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
 
-app.use(
-  session({
-    secret: "topsecret",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
+// Passport middleware
 app.use(passport.initialize());
-app.use(passport.session());
+
+// Passport config
+require("./app/config/passport")(passport);
 
 // Routes
-require("./app/routes/user-routes.js")(app);
-require("./app/routes/budget-routes.js")(app);
+app.use(routes);
+// require("./app/routes/user-routes.js")(app);
+// require("./app/routes/budget-routes.js")(app);
 
 db.sequelize.sync().then(() => {
   app.listen(PORT, () => {
