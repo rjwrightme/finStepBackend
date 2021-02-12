@@ -97,28 +97,9 @@ router.post("/api/signup", (req, res) => {
     });
 });
 
-// // Logout Route
-// user.get("/api/logout", (req, res) => {
-//   req.logout();
-//   res.redirect("/");
-// });
-
-// Authentication route for verifying user is logged in.
-// user.get("/api/user_data", (req, res) => {
-//   if (!req.user) {
-//     // The user is not logged in, send back an empty object
-//     res.json({});
-//   } else {
-//     // Otherwise send back the user's name, email and id
-//     res.json({
-//       isAuthenticated: true,
-//       firstName: req.user.firstName,
-//       lastName: req.user.lastName,
-//       email: req.user.email,
-//       id: req.user.id,
-//     });
-//   }
-// });
+/*-------------------------------------
+### Authentication function & Route ###
+-------------------------------------*/
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
