@@ -41,7 +41,7 @@ router.post("/api/login", (req, res) => {
           let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: "30m",
           });
-          res.send(token);
+          res.json({ accessToken: token });
         } else {
           res.status(400).json({ error: "User does not exist" });
         }
@@ -120,16 +120,27 @@ router.post("/api/signup", (req, res) => {
 //   }
 // });
 
-router.get("/api/user_data", (req, res) => {
-  const decoded = jwt.verify(
-    req.headers["authorization"],
-    process.env.ACCESS_TOKEN_SECRET
-  );
-  db.User.findOne({
-    id: decoded.id,
-  })
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+router.get("/api/user_data", authenticateToken, (req, res) => {
+  console.log(req.user);
+  db.user
+    .findOne({
+      id: req.user.id,
+    })
     .then((response) => {
       if (response) {
+        response = { ...response.dataValues, isAuthenticated: true };
         res.json(response);
       } else {
         res.status(400).json({ error: "User does not exist" });
