@@ -132,4 +132,83 @@ router.get("/api/user_data", authenticateToken, (req, res) => {
     });
 });
 
+/*-----------------------------
+####### New Budget Route #######
+------------------------------*/
+router.post("/api/new-budget", (req, res) => {
+  db.budget
+    .create({
+      budgetName: "mainBudget",
+      userId: req.body.userId,
+    })
+    .then((dbResponse) => {
+      res.json(dbResponse);
+    })
+    .catch((err) => {
+      res.status(401).json(err);
+    });
+});
+
+/*-------------------------------
+###### New BudgetItem Route ######
+--------------------------------*/
+router.post("/api/new-budget-item", (req, res) => {
+  db.budgetItem
+    .create({
+      itemName: req.body.itemName,
+      type: req.body.type,
+      amount: req.body.amount,
+      frequency: req.body.frequency,
+      budgetId: req.body.budgetId,
+      daily: req.body.daily,
+    })
+    .then(() => {
+      res.json({
+        itemName: req.body.itemName,
+        type: req.body.type,
+        amount: req.body.amount,
+        frequency: req.body.frequency,
+        budgetId: req.body.budgetId,
+        daily: req.body.daily,
+      });
+    })
+    .catch((err) => {
+      res.status(401).json(err);
+    });
+});
+
+/*-----------------------------
+###### GET BudgetID Route ######
+------------------------------*/
+router.get("/api/budget/:userId", (req, res) => {
+  db.budget
+    .findOne({
+      where: {
+        userId: req.params.userId,
+      },
+    })
+    .then((budget) => res.json(budget));
+});
+
+/*-------------------------------
+### GET All BudgetItems Route ###
+--------------------------------*/
+router.get("/api/budget-list/:userId", (req, res) => {
+  db.budgetItem
+    .findAll({
+      include: [
+        {
+          model: db.budget,
+          where: {
+            userId: req.params.userId,
+          },
+          include: [db.user],
+        },
+      ],
+    })
+    .then((budgetItems) => {
+      res.json(budgetItems);
+    });
+});
+
 module.exports = router;
