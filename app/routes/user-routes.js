@@ -177,6 +177,24 @@ router.post("/api/new-budget-item", (req, res) => {
     });
 });
 
+/*--------------------------------
+##### Delete BudgetItem Route #####
+---------------------------------*/
+router.delete("/api/budget-item/:id", (req, res) => {
+  db.budgetItem
+    .destroy({
+      where: {
+        id: req.params.id,
+      },
+    })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      res.status(401).json(err);
+    });
+});
+
 /*-----------------------------
 ###### GET BudgetID Route ######
 ------------------------------*/
